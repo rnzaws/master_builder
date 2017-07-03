@@ -1,0 +1,241 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+# Any code, applications, scripts, templates, proofs of concept,
+# documentation and other items are provided for illustration purposes only.
+#
+# Copyright 2017 Amazon Web Services
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+Parameters:
+
+  AppEnvironmentName:
+    Type: String
+    MinLength: 2
+    MaxLength: 100
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+    Default: "test"
+    Description: "Application environment name"
+
+  KinesisStackName:
+    Type: String
+    MinLength: 1
+    MaxLength: 255
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+    Default: "mb-kinesis"
+    Description: "Kinesis stack name"
+
+  DbStackName:
+    Type: String
+    MinLength: 1
+    MaxLength: 255
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+    Default: "mb-db"
+    Description: "Db stack name"
+
+Resources:
+
+  VoteApi:
+    Type: "AWS::ApiGateway::RestApi"
+    Properties:
+      Description: "API for voting"
+      FailOnWarnings: true
+      Name: !Sub "VoteApi-${AppEnvironmentName}"
+
+  VoteApiCertificate:
+    Type: "AWS::ApiGateway::ClientCertificate"
+    Properties:
+      Description: "Vote API client certificate"
+
+  VoteApiVoteServiceProxyResource:
+    Type: "AWS::ApiGateway::Resource"
+    Properties:
+      PathPart: "vote"
+      RestApiId:
+        !Ref VoteApi
+      ParentId:
+        !GetAtt VoteApi.RootResourceId
+    DependsOn:
+      - VoteApi
+
+  VotesApiVoteServiceProxyResource:
+    Type: "AWS::ApiGateway::Resource"
+    Properties:
+      PathPart: "votes"
+      RestApiId:
+        !Ref VoteApi
+      ParentId:
+        !GetAtt VoteApi.RootResourceId
+    DependsOn:
+      - VoteApi
+
+  VoteApiGatewayProxyKinesisPutRecordsRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Sub "VoteApiGatewayProxyKinesisPutRecordsRole-${AWS::StackName}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "apigateway.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        -
+          PolicyName: "api-gateway-kinesis-put-records"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "kinesis:PutRecord"
+                  - "kinesis:PutRecords"
+                Resource:
+                  Fn::ImportValue: !Sub "${KinesisStackName}-kinesis-stream-raw-vote-arn"
+
+  VotesApiGatewayProxyDynamoDbReadRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Sub "VoteApiGatewayProxyDynamoDbReadRole-${AWS::StackName}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "apigateway.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        -
+          PolicyName: "api-gateway-dynamodb-get-records"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "dynamodb:GetItem"
+                  - "dynamodb:Query"
+                Resource:
+                  Fn::ImportValue: !Sub "${DbStackName}-event-votes-dynamodb-table-arn"
+
+  VoteApiVoteServiceProxyMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      RestApiId: !Ref VoteApi
+      ResourceId: !Ref VoteApiVoteServiceProxyResource
+      HttpMethod: "POST"
+      AuthorizationType: "NONE"
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseModels:
+            "application/json": "Empty"
+      Integration:
+        Type: "AWS"
+        IntegrationHttpMethod: "POST"
+        Credentials: !GetAtt VoteApiGatewayProxyKinesisPutRecordsRole.Arn
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:kinesis:action/PutRecord
+        IntegrationResponses:
+          - StatusCode: "200"
+            ResponseTemplates:
+              "application/json": ""
+
+    DependsOn:
+      - VoteApi
+      - VoteApiVoteServiceProxyResource
+      - VoteApiGatewayProxyKinesisPutRecordsRole
+
+  VotesApiVoteServiceProxyMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      RestApiId: !Ref VoteApi
+      ResourceId: !Ref VotesApiVoteServiceProxyResource
+      HttpMethod: "POST"
+      AuthorizationType: "NONE"
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseModels:
+            "application/json": "Empty"
+      Integration:
+        Type: "AWS"
+        IntegrationHttpMethod: "POST"
+        Credentials: !GetAtt VotesApiGatewayProxyDynamoDbReadRole.Arn
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:dynamodb:action/GetItem
+        IntegrationResponses:
+          - StatusCode: "200"
+            ResponseTemplates:
+              "application/json": ""
+
+    DependsOn:
+      - VoteApi
+      - VotesApiVoteServiceProxyResource
+      - VotesApiGatewayProxyDynamoDbReadRole
+
+  VoteApiProdDeployment:
+    Type: "AWS::ApiGateway::Deployment"
+    Properties:
+      RestApiId: !Ref VoteApi
+      Description: "Prod deployment"
+      StageName: "prod"
+      StageDescription:
+        CacheClusterEnabled: true
+        CacheClusterSize: "0.5"
+        CacheDataEncrypted: false
+        CacheTtlInSeconds: 2
+        CachingEnabled: true
+        MetricsEnabled: true
+        MethodSettings:
+          - CachingEnabled: false
+            HttpMethod: "POST"
+            ResourcePath: "/vote"
+    DependsOn:
+      - VoteApi
+      - VoteApiVoteServiceProxyMethod
+      - VotesApiVoteServiceProxyMethod
+
+Outputs:
+
+  VoteApiId:
+    Value: !Ref VoteApi
+    Export:
+      Name: !Sub "${AWS::StackName}-vote-api-gateway-id"
+
+  VoteApiRootResourceId:
+    Value: !GetAtt VoteApi.RootResourceId
+    Export:
+      Name: !Sub "${AWS::StackName}-vote-api-gateway-root-resource-id"
+
+  VoteApiCertificateName:
+    Value: !Ref VoteApiCertificate
+    Export:
+      Name: !Sub "${AWS::StackName}-vote-api-gateway-client-cert-name"
+
+  VoteApiProdDeploymentId:
+    Value: !Ref VoteApiProdDeployment
+    Export:
+      Name: !Sub "${AWS::StackName}-vote-api-gateway-prod-deployment-id"
+
+  VoteApiGatewayProxyKinesisPutRecordsRoleArn:
+    Value: !GetAtt VoteApiGatewayProxyKinesisPutRecordsRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-vote-api-gateway-proxy-kinesis-put-records-role-arn"
+

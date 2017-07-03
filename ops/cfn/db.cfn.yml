@@ -1,0 +1,103 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+# Any code, applications, scripts, templates, proofs of concept,
+# documentation and other items are provided for illustration purposes only.
+#
+# Copyright 2017 Amazon Web Services
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+Parameters:
+
+  EventVotesDynamoDbReadCapacityUnits:
+    Type: Number
+    Default: 5
+
+  EventVotesDynamoDbWriteCapacityUnits:
+    Type: Number
+    Default: 5
+
+  EventContentDynamoDbReadCapacityUnits:
+    Type: Number
+    Default: 5
+
+  EventContentDynamoDbWriteCapacityUnits:
+    Type: Number
+    Default: 5
+
+  AppEnvironmentName:
+    Type: String
+    MinLength: 2
+    MaxLength: 100
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+    Default: "test"
+    Description: "Application environment name"
+
+Resources:
+
+  EventVotesDynamoDbTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName: !Sub "event-votes-${AppEnvironmentName}"
+      AttributeDefinitions:
+        - AttributeName: "EventId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "EventId"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref EventVotesDynamoDbReadCapacityUnits
+        WriteCapacityUnits: !Ref EventVotesDynamoDbWriteCapacityUnits
+
+  EventContentDynamoDbTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName: !Sub "event-content-${AppEnvironmentName}"
+      AttributeDefinitions:
+        - AttributeName: "EventId"
+          AttributeType: "S"
+        - AttributeName: "CreateTime"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "EventId"
+          KeyType: "HASH"
+        - AttributeName: "CreateTime"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref EventContentDynamoDbReadCapacityUnits
+        WriteCapacityUnits: !Ref EventContentDynamoDbWriteCapacityUnits
+    DependsOn: EventVotesDynamoDbTable
+
+Outputs:
+
+  EventVotesDynamoDbTableName:
+    Value: !Ref EventVotesDynamoDbTable
+    Export:
+      Name: !Sub "${AWS::StackName}-event-votes-dynamodb-table-name"
+
+  EventVotesDynamoDbTableArn:
+    Value: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${EventVotesDynamoDbTable}"
+    Export:
+      Name: !Sub "${AWS::StackName}-event-votes-dynamodb-table-arn"
+
+  EventContentDynamoDbTableName:
+      Value: !Ref EventContentDynamoDbTable
+      Export:
+        Name: !Sub "${AWS::StackName}-event-content-dynamodb-table-name"
+
+  EventContentDynamoDbTableArn:
+      Value: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${EventContentDynamoDbTable}"
+      Export:
+        Name: !Sub "${AWS::StackName}-event-content-dynamodb-table-arn"
+
