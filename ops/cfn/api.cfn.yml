@@ -69,10 +69,21 @@ Resources:
     DependsOn:
       - VoteApi
 
-  VotesApiVoteServiceProxyResource:
+  VoteApiVotesServiceProxyResource:
     Type: "AWS::ApiGateway::Resource"
     Properties:
       PathPart: "votes"
+      RestApiId:
+        !Ref VoteApi
+      ParentId:
+        !GetAtt VoteApi.RootResourceId
+    DependsOn:
+      - VoteApi
+
+  VoteApiContentServiceProxyResource:
+    Type: "AWS::ApiGateway::Resource"
+    Properties:
+      PathPart: "content"
       RestApiId:
         !Ref VoteApi
       ParentId:
@@ -109,10 +120,10 @@ Resources:
                 Resource:
                   Fn::ImportValue: !Sub "${KinesisStackName}-kinesis-stream-raw-vote-arn"
 
-  VotesApiGatewayProxyDynamoDbReadRole:
+  VoteApiGatewayProxyVotesReadRole:
     Type: "AWS::IAM::Role"
     Properties:
-      RoleName: !Sub "VoteApiGatewayProxyDynamoDbReadRole-${AWS::StackName}"
+      RoleName: !Sub "VoteApiGatewayProxyVotesReadRole-${AWS::StackName}"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -137,6 +148,34 @@ Resources:
                   - "dynamodb:Query"
                 Resource:
                   Fn::ImportValue: !Sub "${DbStackName}-event-votes-dynamodb-table-arn"
+
+  VoteApiGatewayProxyContentReadRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Sub "VoteApiGatewayProxyContentReadRole-${AWS::StackName}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "apigateway.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: "api-gateway-content-dynamodb-read"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "dynamodb:GetItem"
+                  - "dynamodb:Query"
+                Resource:
+                  Fn::ImportValue: !Sub "${DbStackName}-event-content-dynamodb-table-arn"
 
   VoteApiVoteServiceProxyMethod:
     Type: "AWS::ApiGateway::Method"
@@ -164,11 +203,11 @@ Resources:
       - VoteApiVoteServiceProxyResource
       - VoteApiGatewayProxyKinesisPutRecordsRole
 
-  VotesApiVoteServiceProxyMethod:
+  VoteApiVotesServiceProxyMethod:
     Type: "AWS::ApiGateway::Method"
     Properties:
       RestApiId: !Ref VoteApi
-      ResourceId: !Ref VotesApiVoteServiceProxyResource
+      ResourceId: !Ref VoteApiVotesServiceProxyResource
       HttpMethod: "POST"
       AuthorizationType: "NONE"
       MethodResponses:
@@ -178,7 +217,7 @@ Resources:
       Integration:
         Type: "AWS"
         IntegrationHttpMethod: "POST"
-        Credentials: !GetAtt VotesApiGatewayProxyDynamoDbReadRole.Arn
+        Credentials: !GetAtt VoteApiGatewayProxyVotesReadRole.Arn
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:dynamodb:action/GetItem
         IntegrationResponses:
           - StatusCode: "200"
@@ -187,8 +226,34 @@ Resources:
 
     DependsOn:
       - VoteApi
-      - VotesApiVoteServiceProxyResource
-      - VotesApiGatewayProxyDynamoDbReadRole
+      - VoteApiVotesServiceProxyResource
+      - VoteApiGatewayProxyVotesReadRole
+
+  VoteApiContentServiceProxyMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      RestApiId: !Ref VoteApi
+      ResourceId: !Ref VoteApiContentServiceProxyResource
+      HttpMethod: "POST"
+      AuthorizationType: "NONE"
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseModels:
+            "application/json": "Empty"
+      Integration:
+        Type: "AWS"
+        IntegrationHttpMethod: "POST"
+        Credentials: !GetAtt VoteApiGatewayProxyContentReadRole.Arn
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:dynamodb:action/Query
+        IntegrationResponses:
+          - StatusCode: "200"
+            ResponseTemplates:
+              "application/json": ""
+
+    DependsOn:
+      - VoteApi
+      - VoteApiContentServiceProxyResource
+      - VoteApiGatewayProxyContentReadRole
 
   VoteApiProdDeployment:
     Type: "AWS::ApiGateway::Deployment"
@@ -210,7 +275,7 @@ Resources:
     DependsOn:
       - VoteApi
       - VoteApiVoteServiceProxyMethod
-      - VotesApiVoteServiceProxyMethod
+      - VoteApiVotesServiceProxyMethod
 
 Outputs:
 
