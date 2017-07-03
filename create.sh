@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_ENV="btest"
+APP_ENV="$1"
 
 aws cloudformation create-stack --stack-name mb-bootstrap-$APP_ENV --template-body file://ops/cfn/bootstrap.cfn.yml
 
