@@ -17,6 +17,7 @@ class ViewController: UIViewController, AIAuthenticationDelegate {
     @IBAction func loginButton(_ sender: Any) {
         print("button pressed")
         LoginWithAmazonProxy.sharedInstance.login(delegate: self)
+        //LoginWithAmazonProxy.sharedInstance.getAccessToken(delegate: self)
     }
 
     override func viewDidLoad() {
