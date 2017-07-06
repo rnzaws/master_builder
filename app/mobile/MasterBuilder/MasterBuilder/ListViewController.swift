@@ -14,6 +14,8 @@ class ListViewController: UITableViewController {
     var TableData:Array< String > = Array < String >()
     var eventId = ""
     
+    var updating = true
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -36,6 +38,7 @@ class ListViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let itemViewController = segue.destination as! ItemViewController
         itemViewController.eventId = self.eventId
+        self.updating = false
     }
     
     override func viewDidLoad() {
@@ -75,11 +78,15 @@ class ListViewController: UITableViewController {
                 }
             }
             
-            self.tableView.reloadData()
-            
-            sleep(2)
             DispatchQueue.main.async {
-                self.loadContent()
+                self.tableView.reloadData()
+            }
+            
+            if self.updating {
+                sleep(1)
+                DispatchQueue.main.async {
+                    self.loadContent()
+                }
             }
         }
         

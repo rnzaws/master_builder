@@ -15,7 +15,6 @@ import Foundation
 class ViewController: UIViewController, AIAuthenticationDelegate {
     
     @IBAction func loginButton(_ sender: Any) {
-        
         print("button pressed")
         LoginWithAmazonProxy.sharedInstance.login(delegate: self)
     }
@@ -32,7 +31,9 @@ class ViewController: UIViewController, AIAuthenticationDelegate {
     }    
     
     func requestDidSucceed(_ apiResult: APIResult) {
+        print("requestDidSucceed")
         if (apiResult.api == API.authorizeUser) {
+            print("redirect")
             AIMobileLib.getAccessToken(forScopes: Settings.Credentials.SCOPES, withOverrideParams: nil, delegate: self)
         }
         else {
@@ -60,7 +61,7 @@ class ViewController: UIViewController, AIAuthenticationDelegate {
                 print(credentialProvider?.accessKey)
                 print(credentialProvider?.secretKey)
                 
-                /**
+                /*
                 task?.continueWithBlock {
                     (task: AWSTask!) -> AnyObject! in
                     if (task.error != nil) {
@@ -87,8 +88,9 @@ class ViewController: UIViewController, AIAuthenticationDelegate {
                     }
                     return task
                 }.continueWithBlock(nil)
- **/
+ */
             }
+ 
         }
     }
     

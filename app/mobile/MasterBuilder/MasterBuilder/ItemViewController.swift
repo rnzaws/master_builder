@@ -13,12 +13,10 @@ import MediaPlayer
 class ItemViewController: UIViewController {
 
     @IBAction func nayVote(_ sender: Any) {
-        print("voting nay")
         self.vote(yea: 0, nay: 1)
     }
     
     @IBAction func yeaVote(_ sender: Any) {
-        print("voting yea")
         self.vote(yea: 1, nay: 0)
     }
     
@@ -66,7 +64,6 @@ class ItemViewController: UIViewController {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter.string(from: date)
     }
-    
 
     func vote(yea: Int, nay: Int) -> Void {
         
@@ -139,31 +136,24 @@ class ItemViewController: UIViewController {
                     let nayCountRaw = item["NayCount"] as! NSDictionary
                     let yeaCountRaw = item["YeaCount"] as! NSDictionary
                     
-                    print(yeaCountRaw["N"] as! String)
-                    print(nayCountRaw["N"] as! String)
-                    
                     if self.yeaCount != nil && self.yeaCount.text != nil {
-                        self.yeaCount.text = yeaCountRaw["N"] as! String
-                        self.yeaCount.setNeedsDisplay()
-                    } else {
-                        print("null yeaCount")
-                        
+                        DispatchQueue.main.async {
+                            self.yeaCount.text = yeaCountRaw["N"] as! String
+                        }
                     }
                     
                     if self.nayCount != nil && self.nayCount.text != nil {
-                        self.nayCount.text = nayCountRaw["N"] as! String
-                        self.nayCount.setNeedsDisplay()
-                    } else {
-                        print("null nayCount")
+                        DispatchQueue.main.async {
+                            self.nayCount.text = nayCountRaw["N"] as! String
+                        }
                     }
                 }
             }
             
-            sleep(2)
+            sleep(3)
             DispatchQueue.main.async {
                 self.loadVotes()
             }
-            
         }
         
         task.resume()
