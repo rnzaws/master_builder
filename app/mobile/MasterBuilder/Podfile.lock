@@ -1,0 +1,28 @@
+PODS:
+  - AWSAPIGateway (2.2.7):
+    - AWSCore (= 2.2.7)
+  - AWSCognito (2.2.7):
+    - AWSCore (= 2.2.7)
+  - AWSCore (2.2.7)
+  - Fabric (1.5.5):
+    - Fabric/Base (= 1.5.5)
+  - Fabric/Base (1.5.5)
+  - UICKeyChainStore (2.0.7)
+
+DEPENDENCIES:
+  - AWSAPIGateway (~> 2.2.7)
+  - AWSCognito (~> 2.2.5)
+  - AWSCore (~> 2.2.7)
+  - Fabric (~> 1.5.0)
+  - UICKeyChainStore (~> 2.0.6)
+
+SPEC CHECKSUMS:
+  AWSAPIGateway: fc857fd9c532ff6e081f52c5d6b9a2e7e402262d
+  AWSCognito: f88aa1b969dafc6208d417ebfa18b0f3b3746093
+  AWSCore: d81e1e534040780deb0f3877aaa207d297e54b4c
+  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
+  UICKeyChainStore: 696cd35083f7c8fb5e201d909b7e6aea6b478575
+
+PODFILE CHECKSUM: c1fd73311b2c0f5008efed699536ec315fc6b397
+
+COCOAPODS: 1.2.1

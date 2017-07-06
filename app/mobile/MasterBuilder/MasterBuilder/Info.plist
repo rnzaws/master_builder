@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>APIKey</key>
+	<string>eyJhbGciOiJSU0EtU0hBMjU2IiwidmVyIjoiMSJ9.eyJ2ZXIiOiIzIiwiZW5kcG9pbnRzIjp7ImF1dGh6IjoiaHR0cHM6Ly93d3cuYW1hem9uLmNvbS9hcC9vYSIsInRva2VuRXhjaGFuZ2UiOiJodHRwczovL2FwaS5hbWF6b24uY29tL2F1dGgvbzIvdG9rZW4ifSwiY2xpZW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1vYTItY2xpZW50LjhiZDJkMWExYjk0ODQ0NmY5NTc2ZDQ5NmVmNmMzNWRiIiwiYXBwRmFtaWx5SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi40N2JlNzU0MDY3ZTU0ZTE4ODJiZjZhNWFiOWFhMmE0MSIsImJ1bmRsZVNlZWRJZCI6InJuem1iLk1hc3RlckJ1aWxkZXIiLCJidW5kbGVJZCI6InJuem1iLk1hc3RlckJ1aWxkZXIiLCJpc3MiOiJBbWF6b24iLCJ0eXBlIjoiQVBJS2V5IiwiYXBwVmFyaWFudElkIjoiYW16bjEuYXBwbGljYXRpb24tY2xpZW50LjMxYTI2OTVhZTg1NDQyYTViNjAwNDQ5ZTYzZWZlM2U0IiwidHJ1c3RQb29sIjpudWxsLCJhcHBJZCI6ImFtem4xLmFwcGxpY2F0aW9uLWNsaWVudC4zMWEyNjk1YWU4NTQ0MmE1YjYwMDQ0OWU2M2VmZTNlNCIsImlkIjoiNTc5YzA1ZjgtNjBmYi0xMWU3LWE5NmQtM2QzMDZkNDU0NjZhIiwiaWF0IjoiMTQ5OTIwMTgyODA4NyJ9.Ml200M3/4XyCLd+g0wvUv+1V4XMnbX9b/gX5/vw+0C6kfou9dPWgZ3jN08IKM9JbuTexK5mK0axsfru+lSfPkJbtT8cfkMlmP14glT2XOo3Dry4OZCgZIOz5T/r5OA+tHNjeg6+WetqNULruPn0nLiGv8SWt+gph5RwriOOW6GIkuQ9UtEUg6a+qwEHbVG3W9W4IEoxF0bpX2z+fj0vq0Q+ANuRRe6aCNsgsNxvOEKh7/DlyQtLNlYvW4LrfLEG0288FB4i5eLFtR7tGf72vYscIJThHkjl6BM13B09IEndzTw8lCBYt75gwk6zHZGjA6hqsbLvZbT5EepcF1juRnQ==</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>rnzmb.MasterBuilder</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>amzn-rnzmb.MasterBuilder</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '8.0'
+use_frameworks!
+
+target 'MasterBuilder' do
+    pod 'UICKeyChainStore', '~> 2.0.6'
+    pod 'AWSCognito', '~> 2.2.5'
+    pod 'Fabric', '~> 1.5.0'
+    pod 'AWSAPIGateway', '~> 2.2.7'
+    pod 'AWSCore', '~> 2.2.7'
+end
