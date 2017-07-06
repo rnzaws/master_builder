@@ -3,6 +3,9 @@
 *.swp
 *.pyc
 
-kinesis_analytics.zip
+.DS_Store
+.DS_Store?
 
+kinesis_analytics.zip
+elastic_transcoder_job_complete.zip
 vote_update.zip
