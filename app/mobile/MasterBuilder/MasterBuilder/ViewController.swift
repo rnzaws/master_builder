@@ -43,25 +43,26 @@ class ViewController: UIViewController, AIAuthenticationDelegate {
             
             if apiResult.api == API.getAccessToken {
                 
-        
-                let credentialProvider = AWSCognitoCredentialsProvider(
-                    regionType: .usEast1,
-                    identityPoolId: "us-east-1:2bb8b6cf-96e9-48f3-a32d-87a1f550b214"
-                )
-                let configuration = AWSServiceConfiguration(region: .usEast1, credentialsProvider: credentialProvider)
-                AWSServiceManager.default().defaultServiceConfiguration = configuration
+                DispatchQueue.main.async {
                 
-                print("we got here")
-                credentialProvider?.logins = ["www.amazon.com": apiResult.result]
+                    let credentialProvider = AWSCognitoCredentialsProvider(
+                        regionType: .usEast1,
+                        identityPoolId: "us-east-1:2bb8b6cf-96e9-48f3-a32d-87a1f550b214"
+                    )
+                    let configuration = AWSServiceConfiguration(region: .usEast1, credentialsProvider: credentialProvider)
+                    AWSServiceManager.default().defaultServiceConfiguration = configuration
                 
-                //var task: AWSTask?
+                    print("we got here")
+                    credentialProvider?.logins = ["www.amazon.com": apiResult.result]
                 
-                var task = credentialProvider?.refresh()
+                    var task = credentialProvider?.refresh()
                 
-                sleep(1)
+                    sleep(1)
+                    print(credentialProvider?.accessKey)
+                    print(credentialProvider?.secretKey)
+
+                }
                 
-                print(credentialProvider?.accessKey)
-                print(credentialProvider?.secretKey)
                 
                 /*
                 task?.continueWithBlock {
