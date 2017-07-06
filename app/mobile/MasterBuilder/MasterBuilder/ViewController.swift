@@ -23,6 +23,7 @@ class ViewController: UIViewController, AIAuthenticationDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         print("viewDidLoad")
+        print(Bundle.main.bundleIdentifier)
     }
 
     override func didReceiveMemoryWarning() {

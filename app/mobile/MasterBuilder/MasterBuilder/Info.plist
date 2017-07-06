@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>APIKey</key>
-	<string>eyJhbGciOiJSU0EtU0hBMjU2IiwidmVyIjoiMSJ9.eyJ2ZXIiOiIzIiwiZW5kcG9pbnRzIjp7ImF1dGh6IjoiaHR0cHM6Ly93d3cuYW1hem9uLmNvbS9hcC9vYSIsInRva2VuRXhjaGFuZ2UiOiJodHRwczovL2FwaS5hbWF6b24uY29tL2F1dGgvbzIvdG9rZW4ifSwiY2xpZW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1vYTItY2xpZW50LmZlNzdmMzUzNWEzNjRhNzNhZjdkZDc1MDZiZjgxY2UxIiwiYXBwRmFtaWx5SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi4zYjZmMTljNDUyOWM0NWJhYmQ0YzcxZTkxYTBiMjUwOSIsImJ1bmRsZVNlZWRJZCI6InJuem1iLk1hc3RlckJ1aWxkZXI1IiwiYnVuZGxlSWQiOiJybnptYi5NYXN0ZXJCdWlsZGVyNSIsImlzcyI6IkFtYXpvbiIsInR5cGUiOiJBUElLZXkiLCJhcHBWYXJpYW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1jbGllbnQuM2Y2NmM0NmIyMzgwNDFhNDk2ZjExZjYzMDQ3NTNhMzAiLCJ0cnVzdFBvb2wiOm51bGwsImFwcElkIjoiYW16bjEuYXBwbGljYXRpb24tY2xpZW50LjNmNjZjNDZiMjM4MDQxYTQ5NmYxMWY2MzA0NzUzYTMwIiwiaWQiOiI4YjE2OWM5NS02MjUwLTExZTctYTk2ZC0zZDMwNmQ0NTQ2NmEiLCJpYXQiOiIxNDk5MzQ4MzcyODYyIn0=.YnP7apf9BnR1q5d6wsWZ2iAPa5YMU5O7Fvy/XB3P0xLDgLZZ5CLW3o06CDTn3R2NG0iP6pm1QZwAeQKaIGxfAAsdv81lxlH0ICTj2ts9cbmPc4YyZBhPD8JbCrZnWf43k8n2tcilbG+JbmDOVSawa0qRSl0uZV7Va2CWG/uEYIBsIiqDbph2CZemKjkLLZ1wTJqtcGLi7wfQRxNHnJvkYZIVjlb84O7P+itqTH2kHT7qWGlKtwbMZdvguz9Lsy8sVQv7jJwDB4+tHOgeRRdxu3J7N4lh3oN0EVLQdqG0GlLnSKnYurfRGEDKJ3WmJRgSTyzPuo2SQru875/BHXxWog==</string>
+	<string>eyJhbGciOiJSU0EtU0hBMjU2IiwidmVyIjoiMSJ9.eyJ2ZXIiOiIzIiwiZW5kcG9pbnRzIjp7ImF1dGh6IjoiaHR0cHM6Ly93d3cuYW1hem9uLmNvbS9hcC9vYSIsInRva2VuRXhjaGFuZ2UiOiJodHRwczovL2FwaS5hbWF6b24uY29tL2F1dGgvbzIvdG9rZW4ifSwiY2xpZW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1vYTItY2xpZW50LmNkYTI0YzJiMjE4YjQ5NWE5OTlhNjg4ZTg4ODA1MGJlIiwiYXBwRmFtaWx5SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi5kMjA4NGM0YzdhYjY0YzA3OGE0MThiMmZhYzA1MTkxOSIsImJ1bmRsZVNlZWRJZCI6ImNvbS50ZXN0Lm1hc3Rlci5idWlsZGVyLnJuIiwiYnVuZGxlSWQiOiJjb20udGVzdC5tYXN0ZXIuYnVpbGRlci5ybiIsImlzcyI6IkFtYXpvbiIsInR5cGUiOiJBUElLZXkiLCJhcHBWYXJpYW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1jbGllbnQuZGFlYjMwZWM4YjdiNDg2Y2FhMmQ1MTFlNDc4MGMyYWIiLCJ0cnVzdFBvb2wiOm51bGwsImFwcElkIjoiYW16bjEuYXBwbGljYXRpb24tY2xpZW50LmRhZWIzMGVjOGI3YjQ4NmNhYTJkNTExZTQ3ODBjMmFiIiwiaWQiOiJmZWYxMjg1Ni02MjVjLTExZTctYTlkMy00N2VlYWI4YmI1M2EiLCJpYXQiOiIxNDk5MzUzNzIxMTg2In0=.GG9upH+TkV+tDncrpbjh/tj9rilCyH37iu2dlf68g16jLFlNZDqFpKPGJumZTaejoL9FDC8MRNaD8c6SvQajRVA3a7E0ZJLMCK5GUrT88WCfVTHt5mZd4y9MZmwSirQheEgk22HehQW4rHLJpwhVNqd5GK62nG3j18sEquMVpEW9WgoA+k3ym6810C97BmHxIXFeLP1w0b0pg1EtdHRketfMhZ/1i3ADW66XsWxO/rL+IioYkfnt0ewQHCWp0n8e0hcFT+Ngx5pjIab0PoDKXBcWKF9M2n2mYegE6yWAHTL5H01lPOn6eU9hFOyAztAFD6G+jYxH6+57XfVxOF5CfA==</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>MasterBuilder5</string>
+	<string>MasterBuilder</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,17 +20,6 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>rnzmb.MasterBuilder5</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>amzn-rnzmb.MasterBuilder5</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -42,6 +31,17 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>amzn-$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		</dict>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
