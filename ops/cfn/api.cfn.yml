@@ -172,6 +172,7 @@ Resources:
               -
                 Effect: "Allow"
                 Action:
+                  - "dynamodb:Scan"
                   - "dynamodb:GetItem"
                   - "dynamodb:Query"
                 Resource:
@@ -244,7 +245,7 @@ Resources:
         Type: "AWS"
         IntegrationHttpMethod: "POST"
         Credentials: !GetAtt VoteApiGatewayProxyContentReadRole.Arn
-        Uri: !Sub arn:aws:apigateway:${AWS::Region}:dynamodb:action/Query
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:dynamodb:action/Scan
         IntegrationResponses:
           - StatusCode: "200"
             ResponseTemplates:
