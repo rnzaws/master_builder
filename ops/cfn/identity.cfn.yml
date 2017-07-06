@@ -19,24 +19,58 @@ AWSTemplateFormatVersion: '2010-09-09'
 # limitations under the License.
 
 
+Parameters:
+
+  AppEnvironmentName:
+    Type: String
+    MinLength: 2
+    MaxLength: 100
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+    Default: "test"
+    Description: "Application environment name"
+
+  AmazonAppId:
+    Type: String
+    MinLength: 2
+    MaxLength: 100
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+    Default: "amzn1.application.47be754067e54e1882bf6a5ab9aa2a41"
+    Description: "Application environment name"
+
 Resources:
 
-  NewVideoBucket:
-    Type: "AWS::S3::Bucket"
+	EventsIdentityPool:
+		Type: "AWS::Cognito::IdentityPool"
+		Properties:
+			IdentityPoolName: !Sub "EventsIdentityPool-${AppEnvironmentName}"
+			AllowUnauthenticatedIdentities: false
+			DeveloperProviderName: !Sub "events.identity-pool.${AppEnvironmentName}"
+			SupportedLoginProviders:
+				Amazon: !Ref AmazonAppId
+			CognitoIdentityProviders:
+			- Amazon Cognito IdentityPool CognitoIdentityProvider
+			SamlProviderARNs:
+				- String
+			OpenIdConnectProviderARNs:
+				- String
+			CognitoStreams:
+				- CognitoStreams
+			PushSync:
+				- PushSync
+			CognitoEvents:
+				String: String
 
-  TransformedVideoBucket:
-    Type: "AWS::S3::Bucket"
 
 Outputs:
 
-  NewVideoBucketName:
-    Value: !Ref NewVideoBucket
+  EventsIdentityPoolId:
+    Value: !Ref EventsIdentityPool
     Export:
-      Name: !Sub "${AWS::StackName}-new-video-bucket-name"
+      Name: !Sub "${AWS::StackName}-events-identity-pool-id"
 
-  TransformedVideoBucketName:
-    Value: !Ref TransformedVideoBucket
+  EventsIdentityPoolName:
+    Value: !GetAtt EventsIdentityPool.Name
     Export:
-      Name: !Sub "${AWS::StackName}-transformed-video-bucket-name"
+      Name: !Sub "${AWS::StackName}-events-identity-pool-name"
 
 
