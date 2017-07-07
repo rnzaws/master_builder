@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import AWSCore
+import AWSCognito
+import LoginWithAmazon
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    
+
+        let credentialProvider = AWSCognitoCredentialsProvider(
+            regionType: .usEast1,
+            identityPoolId: "us-east-1:2bb8b6cf-96e9-48f3-a32d-87a1f550b214"
+        )
+        let configuration = AWSServiceConfiguration(region: .usEast1, credentialsProvider: credentialProvider)
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
+        
+        
         return true
     }
 
@@ -41,6 +53,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return AIMobileLib.handleOpen(url, sourceApplication: UIApplicationOpenURLOptionsKey.sourceApplication.rawValue)
+    }
 
 }
 
