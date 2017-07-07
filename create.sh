@@ -41,3 +41,12 @@ aws cloudformation create-stack --stack-name mb-api-$APP_ENV --template-body fil
 
 aws cloudformation wait stack-create-complete --stack-name mb-api-$APP_ENV
 
+zip -j elastic_transcoder_job_complete.zip app/elastic_transcoder_job_complete.py
+aws s3 cp elastic_transcoder_job_complete.zip s3://$LAMBDA_BUCKET
+
+aws cloudformation create-stack --stack-name mb-media-$APP_ENV --template-body file://ops/cfn/media.cfn.yml --capabilities CAPABILITY_NAMED_IAM \
+  --parameters ParameterKey=AppEnvironmentName,ParameterValue=$APP_ENV ParameterKey=CiStackName,ParameterValue=mb-ci-$APP_ENV ParameterKey=DbStackName,ParameterValue=mb-db-$APP_ENV
+
+aws cloudformation wait stack-create-complete --stack-name mb-media-$APP_ENV
+
+
